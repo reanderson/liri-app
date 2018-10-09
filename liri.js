@@ -12,7 +12,7 @@ const keys = require("./keys.js");
 const spotify = new Spotify(keys.spotify);
 
 // get user input
-let command = process.argv[2];
+let command = process.argv[2].toLowerCase();
 let searchTerm = process.argv[3];
 
 // Liri can take four commands, so check the command to see if it is one of the acceptable ones:
@@ -182,8 +182,8 @@ ${ratings}Plot: ${plot}`)
 
     })
 
-  } else {
-    // If none of the pre-programmed commands are inputted, print instructions
+  } else if (command === "help") {
+    // provide instructions if help command is entered
     console.log(`
     Welcome to Liri! Here's how to use this app:
     
@@ -198,5 +198,10 @@ ${ratings}Plot: ${plot}`)
       
     node liri.js do-what-it-says
       This will execute the command in random.txt.`)
+  } else {
+    // if no correct command is given, say as such
+    console.log(`Invalid command. See the readme, or enter 
+node liri.js help
+for a list of valid commands.`)
   }
 }
