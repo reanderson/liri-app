@@ -2,12 +2,6 @@
 
 Liri is a simple Node command line app that takes user input and searches specific APIs.
 
-### Contents:
-* [Installation](##Installation)
-* [Commands](##Commands) 
-* [Examples](##Examples)
-* [Built With](##Built-With)
-
 - - -
 ## Installation
 * Using the command line, cd into the directory, and run ```npm install```
