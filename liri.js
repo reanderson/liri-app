@@ -22,12 +22,32 @@ if (command === "do-what-it-says") {
   // retrieve the contents of random.txt, and set command and searchTerm accordingly.
   // then runLiri
 
+  fs.readFile("random.txt", "utf8", function(error, data) {
+
+    // If the code experiences any errors it will log the error to the console.
+    if (error) {
+      return console.log(error);
+    }
+  
+    // Then split data by commas
+    var dataArr = data.split(",");
+  
+    // assign command and searchTerm
+
+    command = dataArr[0];
+    searchTerm = dataArr[1];
+
+    //run liri
+    runLiri()
+  
+  });
+
 } else {
   runLiri()
 }
 
 function runLiri() {
-  // Check input for ohter commands
+  // Check input for other commands
   if (command === "concert-this") {
     // search Bands in Town API
     // Print the name of venue, venue location, and date of event formatted as MM/DD/YYYY for all events returned
