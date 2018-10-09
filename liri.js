@@ -35,8 +35,13 @@ function runLiri() {
 
     if (searchTerm) {
       request(`https://rest.bandsintown.com/artists/${searchTerm}/events?app_id=codingbootcamp`, function (error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        
+      if (error){
+        console.log(`error: 
+        ${error}`); 
+        return false;
+      }
+        // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 
         
         const results = JSON.parse(body);
@@ -64,6 +69,49 @@ Date: ${moment(result.datetime, "YYYY-MM-DDTHH:mm:ss").format("MM/DD/YYYY")}
     // Search for a song name on the Spotify API
     // Print the artist, song title, preview link from Spotif, and album
     // If no song is provided, default to "The Sign" by Ace of Base
+    if(!searchTerm) {
+      searchTerm = "The Sign Ace of Base"
+    }
+
+    spotify
+  .search({ type: 'track', query: searchTerm })
+  .then(function(response) {
+    const responseItems = response.tracks.items;
+
+    if (!responseItems[0]) {
+      // If there aren't any items found,
+      console.log(`No results for ${searchTerm}`)
+      return false;
+    }
+
+    
+    console.log(`Results for ${searchTerm}:
+    `)
+
+    responseItems.forEach(function(song) {
+      let artist = song.artists[0].name;
+      
+      if (song.artists.length > 0) {
+        for (let i = 1; i < song.artists.length; i++) {
+          artist = `${artist}, ${song.artists[i].name}`
+        }
+      }
+
+      const songTitle = song.name;
+      const prevLink = song.preview_url;
+      const songAlbum = song.album.name;
+
+      console.log(`Title: ${songTitle}
+Artist: ${artist}
+Album: ${songAlbum}
+Preview: ${prevLink}
+--------------------------------------------------`)
+    })
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
+
   } else if (command === "movie-this") {
     // Search OMDB api
     //Print movie title, year it came out, IMDB rating, Rotton Tomatoes rating, country where the movie was produced, the language, plot, and actors of the movie
